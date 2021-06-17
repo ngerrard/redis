@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RedisCache.Repository
 {
@@ -51,19 +52,19 @@ namespace RedisCache.Repository
             return server.Keys().Select(x => x.ToString());
         }
 
-        public string GetValueByKey(string key)
+        public async Task<string> GetValueByKey(string key)
         {
             var db = redis.GetDatabase();
-            return db.StringGet(key);
+            return await db.StringGetAsync(key);
         }
 
-        public void RemoveValue(string key)
+        public async Task RemoveValue(string key)
         {
             var db = redis.GetDatabase();
-            db.KeyDelete(key);
+            await db.KeyDeleteAsync(key);
         }
 
-        public void SaveValue(string key, string value, int ttl)
+        public async Task SaveValue(string key, string value, int ttl)
         {
             var db = redis.GetDatabase();
             TimeSpan? expiration = null;
@@ -71,12 +72,12 @@ namespace RedisCache.Repository
             {
                 expiration = new TimeSpan(0, 0, ttl);
             }
-            db.StringSet(key, value, expiration);
+            await db.StringSetAsync(key, value, expiration);
         }
 
-        public void UpdateValue(string key, string value, int ttl)
+        public async Task UpdateValue(string key, string value, int ttl)
         {
-            SaveValue(key, value, ttl);
+            await SaveValue(key, value, ttl);
         }
     }
 }

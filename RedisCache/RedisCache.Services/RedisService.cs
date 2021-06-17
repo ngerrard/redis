@@ -1,7 +1,6 @@
 ﻿using RedisCache.Repository;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace RedisCache.Services
 {
@@ -18,24 +17,24 @@ namespace RedisCache.Services
             return redisRepository.GetAllKeys();
         }
 
-        public string GetValueByKey(string key)
+        public async Task<string> GetValueByKey(string key)
         {
-            return redisRepository.GetValueByKey(key);
+            return await redisRepository.GetValueByKey(key);
         }
 
-        public void RemoveValue(string key)
+        public async Task RemoveValue(string key)
         {
-            redisRepository.RemoveValue(key);
+            await redisRepository.RemoveValue(key);
         }
 
-        public void SaveValue(string key, string value, int ttl)
+        public async Task SaveValue(string key, string value, int ttl)
         {
-            redisRepository.SaveValue(key, value, ttl);
+            await redisRepository .SaveValue(key, value, ttl);
         }
 
-        public void UpdateValue(string key, string value, int ttl)
+        public async Task UpdateValue(string key, string value, int ttl)
         {
-            redisRepository.UpdateValue(key, value, ttl);
+            await redisRepository.UpdateValue(key, value, ttl);
         }
     }
 }

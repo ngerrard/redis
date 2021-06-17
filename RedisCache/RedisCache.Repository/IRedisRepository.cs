@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RedisCache.Repository
 {
     public interface IRedisRepository
     {
         IEnumerable<string> GetAllKeys();
-        string GetValueByKey(string key);
-        void RemoveValue(string key);
-        void SaveValue(string key, string value, int ttl);
-        void UpdateValue(string key, string value, int ttl);
+        Task<string> GetValueByKey(string key);
+        Task RemoveValue(string key);
+        Task SaveValue(string key, string value, int ttl);
+        Task UpdateValue(string key, string value, int ttl);
     }
 }

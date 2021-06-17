@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RedisCache.Services;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,30 +26,30 @@ namespace RedisCache.Api.Controllers
 
         // GET api/<RedisController>/5
         [HttpGet("{key}")]
-        public string Get(string key)
+        public async Task<string> Get(string key)
         {
-            return redisService.GetValueByKey(key);
+            return await redisService.GetValueByKey(key);
         }
 
         // POST api/<RedisController>
         [HttpPost]
-        public void Post([FromBody] string key, [FromBody] string value, [FromBody] int ttl = -1)
+        public async Task Post([FromBody] RedisCache redisCache)
         {
-            redisService.SaveValue(key, value, ttl);
+            await redisService.SaveValue(redisCache.Key, redisCache.Value, redisCache.Ttl);
         }
 
         // PUT api/<RedisController>/5
         [HttpPut("{key}")]
-        public void Put(string key, [FromBody] string value, [FromBody] int ttl = -1)
+        public async Task Put(string key, [FromBody] RedisCache redisCache)
         {
-            redisService.UpdateValue(key, value, ttl);
+            await redisService .UpdateValue(key, redisCache.Value, redisCache.Ttl);
         }
 
         // DELETE api/<RedisController>/5
         [HttpDelete("{key}")]
-        public void Delete(string key)
+        public async Task Delete(string key)
         {
-            redisService.RemoveValue(key);
+            await redisService .RemoveValue(key);
         }
     }
 }
