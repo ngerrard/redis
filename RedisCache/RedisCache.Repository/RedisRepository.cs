@@ -49,7 +49,8 @@ namespace RedisCache.Repository
         {
             var endpoints = redis.GetEndPoints();
             var server = redis.GetServer(endpoints.First());
-            return server.Keys().Select(x => x.ToString());
+            var keys = server.Keys();
+            return keys.Select(x => x.ToString());
         }
 
         public async Task<string> GetValueByKey(string key)
@@ -73,6 +74,10 @@ namespace RedisCache.Repository
                 expiration = new TimeSpan(0, 0, ttl);
             }
             await db.StringSetAsync(key, value, expiration);
+            if (!await db.KeyExistsAsync(key))
+            {
+                throw new Exception($"Key was not written {key}");
+            }
         }
 
         public async Task UpdateValue(string key, string value, int ttl)
