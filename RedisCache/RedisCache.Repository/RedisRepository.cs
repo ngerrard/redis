@@ -69,7 +69,7 @@ namespace RedisCache.Repository
         {
             var db = redis.GetDatabase();
             TimeSpan? expiration = null;
-            if (ttl > -1)
+            if (ttl > 0)
             {
                 expiration = new TimeSpan(0, 0, ttl);
             }
