@@ -29,7 +29,7 @@ namespace RedisCache.Services
 
         public async Task SaveValue(string key, string value, int ttl)
         {
-            await redisRepository .SaveValue(key, value, ttl);
+            await redisRepository.SaveValue(key, value, ttl);
         }
 
         public async Task UpdateValue(string key, string value, int ttl)
